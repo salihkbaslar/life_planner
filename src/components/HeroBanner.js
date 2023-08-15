@@ -10,7 +10,7 @@ const HeroBanner = () => {
     }} position="relative" p= '20px'>
         <Typography color="#E08B28"
         fontWeight="600" fontSize="26px">
-            BODYBOOST
+            LIFE PLANNER
         </Typography>
         <Typography fontWeight="700"
         sx={{ fontSize: { lg: "44px", xs: "40px"}}} mb="23px" mt="30px">

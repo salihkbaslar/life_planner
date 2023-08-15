@@ -24,26 +24,22 @@ function BodyFatCalculator () {
         (495 / (1.29579-0.35004*(Math.log10(parseFloat(waist)+(parseFloat(hip)-parseFloat(neck))))+0.22100*(Math.log10(height)))-450);
     }
   
-    setBodyFatPercentage(bodyFat.toFixed(2));
+    setBodyFatPercentage(bodyFat.toFixed(1));
   };
 
-  const calculateBMI = () => {
+  function calculateBMI () {
     let bmi = 0;
     let heightM = height / 100;
     bmi = weight/(heightM*heightM);
 
-    setBMI(bmi.toFixed(2));
+    setBMI(bmi.toFixed(1));
   };
 
-  const calculateBMR = () => {
+  function calculateBMR () {
     let bmr = 0;
-    if (gender === 'male') {
-      bmr = 88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age);
-    } else {
-      bmr = 447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age);
-    }
-    const calories = bmr * activityLevel;
-    setBMR(calories.toFixed(2));
+    let leanBodyMass = (weight * (100 - bodyFatPercentage) / 100);
+    bmr = 370 + (21.6 * leanBodyMass);
+    setBMR(bmr.toFixed());
   };
   
 
@@ -101,7 +97,7 @@ function BodyFatCalculator () {
               checked={activityLevel === 1.2}
               onChange={() => setActivityLevel(1.2)}
             />
-          <label htmlFor="sedentary">Sedentary</label>
+          <label htmlFor="sedentary">Sedentary (Inactive)</label>
           </Stack>
           <Stack direction="row" spacing={1}>
             <input
@@ -112,7 +108,7 @@ function BodyFatCalculator () {
               checked={activityLevel === 1.375}
               onChange={() => setActivityLevel(1.375)}
             />
-            <label htmlFor="lightlyActive">Lightly Active</label>
+            <label htmlFor="lightlyActive">Lightly Active <br /> (1-2 days training per week)</label>
           </Stack>
           <Stack direction="row" spacing={1}>
             <input
@@ -123,7 +119,7 @@ function BodyFatCalculator () {
               checked={activityLevel === 1.55}
               onChange={() => setActivityLevel(1.55)}
             />
-            <label htmlFor="moderatelyActive">Moderately Active</label>
+            <label htmlFor="moderatelyActive">Moderately Active <br /> (3-4 days training per week)</label>
           </Stack>
           <Stack direction="row" spacing={1}>
             <input
@@ -134,7 +130,7 @@ function BodyFatCalculator () {
               checked={activityLevel === 1.725}
               onChange={() => setActivityLevel(1.725)}
             />
-            <label htmlFor="veryActive">Very Active</label>
+            <label htmlFor="veryActive">Very Active <br /> (5-7 days training per week)</label>
           </Stack>
           <Stack direction="row" spacing={1}>
             <input 
@@ -145,7 +141,7 @@ function BodyFatCalculator () {
               checked={activityLevel === 1.9} 
               onChange={() => setActivityLevel(1.9)} 
             />
-            <label for="extremelyActive">Extremely Active</label>
+            <label for="extremelyActive">Extremely Active <br /> (Professional Level Training)</label>
           </Stack>
         </Typography>
       </Stack>
@@ -304,7 +300,96 @@ function BodyFatCalculator () {
           />
           </Box>
       </Stack>
-      
+      <br />
+      <Typography>
+          <Stack alignItems="center"><h3>Calories on a Daily Basis</h3></Stack> 
+          <Stack direction="column" alignItems="center" spacing={1.65}>
+          <Stack direction="row" spacing={5}>
+            BMR (Never stay below this amount for too long!)
+          </Stack>
+          <Stack direction="row">
+          <TextField 
+            sx={{
+              input: {
+                  fontWeight: "700",
+                  border: "none",
+                  borderRadius: "4px"},
+                  width: { lg: "200px", xs: "85px"},
+                  backgroundColor: "#fff",
+                  justifyItems:"center"
+              }}
+              height="76px"
+              type=""
+              id="BMR"
+              value={BMR}
+              readOnly
+          />
+          </Stack>
+          <Stack direction="row" spacing={5} justifyContent="center">
+          Your Daily Calorie Needs (This amount maintains your weight, <br />  you can increase or decrease according to your purpose)
+          </Stack>
+          <Stack direction="row">
+          <TextField 
+            sx={{
+              input: {
+                  fontWeight: "700",
+                  border: "none",
+                  borderRadius: "4px"},
+                  width: { lg: "200px", xs: "85px"},
+                  backgroundColor: "#fff",
+                  justifyItems:"center"
+              }}
+              height="76px"
+              type=""
+              id="BMR"
+              value={(BMR * activityLevel).toFixed()}
+              readOnly
+          />
+          </Stack>
+          <Stack direction="row" spacing={5}>
+          Fat Burning Starting Calories
+          </Stack>
+          <Stack direction="row">
+          <TextField 
+            sx={{
+              input: {
+                  fontWeight: "700",
+                  border: "none",
+                  borderRadius: "4px"},
+                  width: { lg: "200px", xs: "85px"},
+                  backgroundColor: "#fff",
+                  justifyItems:"center"
+              }}
+              height="76px"
+              type=""
+              id="BMR"
+              value={(BMR * activityLevel * 0.833).toFixed()}
+              readOnly
+          />
+          </Stack>
+          <Stack direction="row" spacing={5}>
+          Weight Gain Starting Calories
+          </Stack>
+          <Stack direction="row">
+          <TextField 
+            sx={{
+              input: {
+                  fontWeight: "700",
+                  border: "none",
+                  borderRadius: "4px"},
+                  width: { lg: "200px", xs: "85px"},
+                  backgroundColor: "#fff",
+                  justifyItems:"center"
+              }}
+              height="76px"
+              type=""
+              id="BMR"
+              value={(BMR * activityLevel * 1.1).toFixed()}
+              readOnly
+          />
+          </Stack>
+          </Stack>
+        </Typography>
       
     </Box>
   );
